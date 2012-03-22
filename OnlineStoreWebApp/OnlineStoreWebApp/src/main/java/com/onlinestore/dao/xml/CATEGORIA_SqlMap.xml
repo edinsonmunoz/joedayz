@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!-- Document : CATEGORIA.xml Created on : 14 de agosto de 2009, 10:08 AM 
+	Author : edinson.munoz Description : Archivo de mapeo para la tabla PRODUCTO. -->
+
+<sqlMap namespace="Categoria">
+
+	<typeAlias alias="categoria" type="com.onlinestore.model.Categoria" />
+
+	<resultMap id="resultCategoria" class="categoria">
+		<result property="idCategoria" column="ID_CATEGORY" columnIndex="1" />
+		<result property="nombre" column="NAME" columnIndex="2" />
+	</resultMap>
+
+	<select id="listarCategorias" resultMap="resultCategoria">
+		SELECT
+		ID_CATEGORY,
+		NAME
+		FROM
+		CATEGORY
+		
+	</select>
+
+	
+
+
+
+
+</sqlMap>

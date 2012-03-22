@@ -1,0 +1,141 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.1.45-community
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema online
+--
+
+CREATE DATABASE IF NOT EXISTS online;
+USE online;
+
+--
+-- Definition of table `authorities`
+--
+
+DROP TABLE IF EXISTS `authorities`;
+CREATE TABLE `authorities` (
+  `username` varchar(50) NOT NULL,
+  `authority` varchar(50) NOT NULL,
+  UNIQUE KEY `ix_auth_username` (`username`,`authority`),
+  CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `authorities`
+--
+
+/*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
+INSERT INTO `authorities` (`username`,`authority`) VALUES 
+ ('emunoz','ROLE_ADMIN'),
+ ('user','ROLE_MEMBER');
+/*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
+
+
+--
+-- Definition of table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `ID_CATEGORY` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(50) NOT NULL,
+  `CODE` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`ID_CATEGORY`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `category`
+--
+
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` (`ID_CATEGORY`,`NAME`,`CODE`) VALUES 
+ (1,'REPRODUCTOR MULTIMEDIA',1),
+ (2,'TELEFONO CELULAR',2),
+ (3,'TABLET',3),
+ (4,'NOTEBOOK',4);
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+
+
+--
+-- Definition of table `product`
+--
+
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `ID_PRODUCT` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(50) NOT NULL,
+  `CODE` varchar(50) NOT NULL,
+  `PRICE` decimal(10,2) NOT NULL,
+  `ID_CATEGORY` int(10) unsigned NOT NULL,
+  `DESCRIPTION` varchar(250) NOT NULL,
+  PRIMARY KEY (`ID_PRODUCT`),
+  KEY `FK_product_1` (`ID_CATEGORY`),
+  CONSTRAINT `FK_product_1` FOREIGN KEY (`ID_CATEGORY`) REFERENCES `category` (`ID_CATEGORY`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product`
+--
+
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` (`ID_PRODUCT`,`NAME`,`CODE`,`PRICE`,`ID_CATEGORY`,`DESCRIPTION`) VALUES 
+ (2,'IPOD TOUCH 32 GB 4G','IPODT32','1299.19',1,'IPOD TOCUH 32 GB 4G'),
+ (4,'BLACKBERRY TORCH 9800','BB9800','1567.90',2,'BLACKBERRY TORCH 9800'),
+ (6,'IPAD 2 WIFI 3G 16GB','IPAD2-W3G-16G','1799.00',1,'TABLET DE APPLE CON CAPACIDAD DE CONEXION WIFI Y 3G. CAPACIDAD DE 16GB'),
+ (7,'IPAD WIFI 3G 16GB','FF','999.00',2,'FF'),
+ (12,'BLACKBERRY CURVE 8520','BB8520','99999999.99',2,'BLACKBERRY CURVE 8520'),
+ (13,'LENOVO LENOVO K1 16GB WIFI','LENOVOK126GB','1599.00',3,'TABLET LENOVO K1 16GB WIFI'),
+ (14,'TOSHIBA THRIVE 16GB WIFI','TOTH16GBWI','1499.00',2,'TABLET DE TOSHIBA DE 16GB CON WIFI'),
+ (15,'TOSHIBA SATELLITE','TOSHSAT 2','4444.00',4,'NOTEBOOK TOSHIBA SATELLITE  2'),
+ (16,'PLAYSTATION 3 160GB','PLAY3160GB','1299.00',1,'PLAY STATION 3 160GB AZUL METALICO'),
+ (17,'LENOVO K1 32GB WIFI','LENOVOK1-32GB','1599.11',3,'TABLET LENOVO IDEAPD K1 32 GB'),
+ (18,'BLACKBERRY 9860','BB9860','1200.13',2,'BB9860'),
+ (19,'BLACKBERRY TORCH 9801','11','11.00',1,'11');
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
+
+
+--
+-- Definition of table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`username`,`password`,`enabled`) VALUES 
+ ('emunoz','emunoz',1),
+ ('user','user',1);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

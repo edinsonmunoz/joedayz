@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!-- Document : PRODUCTO.xml Created on : 14 de agosto de 2009, 10:08 AM 
+	Author : edinson.munoz Description : Archivo de mapeo para la tabla PRODUCTO. -->
+
+<sqlMap namespace="Producto">
+
+	<typeAlias alias="producto" type="com.onlinestore.model.Producto" />
+
+	<resultMap id="resultProducto" class="producto">
+		<result property="idProducto" column="ID_PRODUCT" columnIndex="1" />
+		<result property="nombre" column="NAME" columnIndex="2" />
+		<result property="codigo" column="CODE" columnIndex="3" />
+		<result property="precio" column="PRICE" columnIndex="4" />
+		<result property="idCategoria" column="ID_CATEGORY"
+			columnIndex="5" />
+		<result property="descripcion" column="DESCRIPTION"
+			columnIndex="6" />
+	</resultMap>
+
+	<select id="listarProductos" resultMap="resultProducto"
+		parameterClass="java.util.Map">
+		SELECT
+		ID_PRODUCT,
+		NAME,
+		CODE,
+		PRICE,
+		ID_CATEGORY,
+		DESCRIPTION
+		FROM
+		PRODUCT
+		WHERE
+		NAME LIKE #nombre#
+		ORDER BY NAME
+	</select>
+
+	<select id="obtenerProducto" resultMap="resultProducto">
+		SELECT
+		ID_PRODUCT,
+		NAME,
+		CODE,
+		PRICE,
+		ID_CATEGORY,
+		DESCRIPTION
+		FROM
+		PRODUCT
+		WHERE
+		ID_PRODUCT =
+		#idProducto#
+	</select>
+
+	<update id="editarProducto" parameterClass="producto">
+        <![CDATA[
+            UPDATE
+                PRODUCT
+            SET
+                NAME = TRIM(UPPER(#nombre#)),
+                CODE = TRIM(UPPER(#codigo#)),
+                PRICE = #precio#,
+                ID_CATEGORY = #idCategoria#,
+                DESCRIPTION = TRIM(UPPER(#descripcion#))
+            WHERE
+                ID_PRODUCT = #idProducto#
+        ]]>
+	</update>
+
+
+	<delete id="eliminarProducto">
+		DELETE
+		FROM
+		PRODUCT
+		WHERE
+		ID_PRODUCT = #idProducto#
+	</delete>
+
+	<insert id="crearProducto" parameterClass="producto">
+        <![CDATA[
+            INSERT INTO
+            PRODUCT (
+                NAME,
+                CODE,
+                PRICE,
+                ID_CATEGORY,
+                DESCRIPTION
+            )
+            VALUES(
+                TRIM(UPPER(#nombre#)),
+                TRIM(UPPER(#codigo#)),
+                #precio#,
+                #idCategoria#,
+                TRIM(UPPER(#descripcion#))
+            )
+        ]]>
+	</insert>
+
+	<select id="existeProducto" resultClass="Integer"
+		parameterClass="java.util.Map">
+		SELECT
+		COUNT(*)
+		FROM
+		PRODUCT
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="idProducto">
+				ID_PRODUCT != #idProducto#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nombre">
+				TRIM(UPPER(NAME)) = TRIM(UPPER(#nombre#))
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>
